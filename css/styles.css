@@ -119,6 +119,10 @@ header h1 {
     text-transform: capitalize;
 }
 
+.error {
+    color: red;
+}
+
 
 /* ===================================== 
    Modal

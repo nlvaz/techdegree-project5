@@ -3,16 +3,19 @@ const url = 'https://randomuser.me/api/?results=12&nat=us';
 
 
 
-//fetch functions
+//FETCH FUNCTION
 fetch(url)
 	.then(res => res.json())
 	.then(data => {
 		createGallery(data.results);
 		displayModals(data.results);
+		addSearchBar(data.results);
 	})
 
 
-//create functions
+//CREATE FUNCTIONS
+
+//function to dynamically add cards to #gallery div
 function createGallery(data) {
 	const $gallery = $('#gallery');
 
@@ -35,12 +38,13 @@ function createGallery(data) {
 
 }
 
-function createModal(clicked, data) {
+//function to dynamically create modal of user passed to function
+function createModal(clicked, prev, next, data) {
 	const HTMLBody = $('body');
 	if($('.modal-container'))
 		$('.modal-container').remove();
 
-	var modalHTML = `<div class="modal-container">
+	let modalHTML = `<div class="modal-container">
 		<div class="modal">
 			<button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button>
 			<div class="modal-info-container">
@@ -54,44 +58,141 @@ function createModal(clicked, data) {
 				<p class="modal-text">Birthday: ${formatBDay(clicked.dob.date)}</p>
 			</div>
 		</div>
+
+		<div class="modal-btn-container">
+			<button type="button" id="modal-prev" class="modal-prev btn">Prev</button>
+			<button type="button" id="modal-next" class="modal-next btn">Next</button>
+        </div>
 	</div>
    `
 
 	$(modalHTML).insertAfter('#gallery');
 	closeModal();
+	toggleModals(clicked, prev, next, data);
 }
 
 
-//helper functions
+//SEARCH FUNCTIONS
+
+//appends search html to search-container div and adds functionality through calling other functions
+function addSearchBar(data) {
+	const searchDiv = $('.search-container');
+	const cards = $('#gallery').children();
+
+	let searchHTML = `<form action="#" method="get">
+    	<input type="search" id="search-input" class="search-input" placeholder="Search...">
+		<input type="submit" value="&#x1F50D;" id="search-submit" class="search-submit">
+    </form>`
+
+    searchDiv.append(searchHTML);
+    const searchSubmit = $('#search-submit');
+    const searchInput = $('.search-input');
+
+    searchSubmit.on('click', (e) => {
+		let results = searchUsers(searchInput.val(), cards, data);
+	});
+
+	searchInput.on('input', (e) => {
+		$.each(cards, (index, card) => {
+			card.style.display = "flex";
+		});
+
+		if($('#gallery .error'))
+			$('#gallery .error').remove();
+	});
+}
+
+function searchUsers(ref, cards, data) {
+	let matches = [];
+	let count = 0;
+
+	$.each(data, (index, user) => {
+		if(user.name.first.includes(ref) || user.name.last.includes(ref))
+			matches.push(cards[index]);
+	});
+
+
+	$.each(cards, (index, card) => {
+		if(card !== matches[count] && count <= matches.length) {
+			card.style.display = "none";
+		} else if(card === matches[count]) {
+			count++;
+		}
+	});
+
+	if(matches.length === 0)
+		$('#gallery').append('<h1 class="error">No Matches Found</h1>');
+}
+
+
+//HELPER FUNCTIONS
+
+//function to display the modal clicked by the user by adding eventListeners to each
 function displayModals(results) {
 	const cards = $('.card');
 
 	$.each(cards, (index, currentCard) => {
 		currentCard.addEventListener('click', () => {
 			const clicked = results[index];
-			createModal(clicked, results);
+
+			if(index != 0)
+				var prev = index-1;
+
+			if(index < cards.length - 1)
+				var next = index+1;
+
+			createModal(clicked, prev, next, results);
+			toggleModals(clicked, prev, next, results);
 		});
 	});
 }
 
+//function to toggle between users
+function toggleModals(clicked, prevIndex, nextIndex, data) {
+	console.log("in toggle");
+	console.log(data[prevIndex]);
+	console.log(clicked);
+	console.log(data[nextIndex]);
+	console.log("end");
+	const prev = data[prevIndex];
+	const next = data[nextIndex];
+	const prevButton = $('#modal-prev');
+	const nextButton = $('#modal-next');
+	const modalContainer = $('.modal-container');
+
+	if(prev !== undefined){
+		prevButton.on('click', () => {
+			modalContainer.hide();
+			createModal(prev, prevIndex-1, nextIndex-1, data);
+		});
+	}
+	if(next !== undefined){
+		nextButton.on('click', () => {
+			modalContainer.hide();
+			createModal(next, prevIndex+1, nextIndex+1, data);
+		});
+	}
+}
+
+//gives functionality to 'X' button on modal displayed
 function closeModal() {
-	var openModal = $('.modal-container');
-	var closeButton = $('.modal-close-btn');
+	let openModal = $('.modal-container');
+	let closeButton = $('.modal-close-btn');
 
 	closeButton.click(e => {
 			openModal.hide();
 	});
 }
 
+//function to format birthday of user passed and return it
 function formatBDay(data) {
-	var dob = data;
-	var formattedDob;
-	var birthYear;
-	var birthMonth;
-	var birthDay;
+	let dob = data;
+	let formattedDob;
+	let birthYear;
+	let birthMonth;
+	let birthDay;
 
 	dob = dob.replace(/T.*/, "")
-	console.log(dob);
 	birthYear = dob.match(/[0-9]{4}/);
 	birthMonth = dob.match(/[0-9]{2}/g)[2];
 	birthDay = dob.match(/[0-9]{2}/g)[3];
