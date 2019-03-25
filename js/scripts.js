@@ -142,33 +142,40 @@ function displayModals(results) {
 				var next = index+1;
 
 			createModal(clicked, prev, next, results);
-			toggleModals(clicked, prev, next, results);
+			//toggleModals(clicked, prev, next, results);
 		});
 	});
 }
 
 //function to toggle between users
 function toggleModals(clicked, prevIndex, nextIndex, data) {
-	console.log("in toggle");
-	console.log(data[prevIndex]);
-	console.log(clicked);
-	console.log(data[nextIndex]);
-	console.log("end");
 	const prev = data[prevIndex];
 	const next = data[nextIndex];
 	const prevButton = $('#modal-prev');
 	const nextButton = $('#modal-next');
 	const modalContainer = $('.modal-container');
 
+	console.log("new");
+	console.log("orig prev: " + prevIndex);
+	console.log("orig next: " + nextIndex);
+
 	if(prev !== undefined){
 		prevButton.on('click', () => {
 			modalContainer.hide();
+			if(nextIndex === undefined)
+				nextIndex = 12;
+			console.log("prev prev: " + prevIndex-1);
+			console.log("prev next: " + nextIndex-1);
 			createModal(prev, prevIndex-1, nextIndex-1, data);
 		});
 	}
 	if(next !== undefined){
 		nextButton.on('click', () => {
 			modalContainer.hide();
+			if(prevIndex === undefined)
+				prevIndex = 0;
+			console.log("next prev: " + prevIndex+1);
+			console.log("next next: " + nextIndex+1);
 			createModal(next, prevIndex+1, nextIndex+1, data);
 		});
 	}
