@@ -2,7 +2,7 @@
    Public API Request
 ======================================== */
 
-@import url('https://fonts.googleapis.com/css?family=Nunito');
+@import url('https://fonts.googleapis.com/css?family=Raleway');
 
 * {
 	box-sizing: border-box;
@@ -14,7 +14,7 @@ html, body {
 }
 
 body {
-    font-family: "Nunito", sans-serif;
+    font-family: "Raleway", roboto;
     text-align: center;
     background: rgba(235, 235, 235, 0.9);
 }
@@ -29,7 +29,8 @@ header {
 }
 
 header h1 {
-    font-size: 1.25em;
+    font-size: 1.30em;
+    font-style: bold;
     color: rgba(50, 50, 50, 0.9);
     margin-top: 35px;
 }
@@ -210,6 +211,10 @@ header h1 {
     transition: .4s ease-out;
     outline: none;
   }
+  
+ .modal-btn-container .disabled {
+   background: rgba(0,0,0,0.63);
+ }
   
 
 /* ===================================== 
