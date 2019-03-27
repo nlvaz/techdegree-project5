@@ -2,7 +2,7 @@
    Public API Request
 ======================================== */
 
-@import url('https://fonts.googleapis.com/css?family=Raleway');
+@import url('https://fonts.googleapis.com/css?family=Baloo+Chettan&effect=fire-animation|destruction');
 
 * {
 	box-sizing: border-box;
@@ -14,7 +14,7 @@ html, body {
 }
 
 body {
-    font-family: "Raleway", roboto;
+    font-family: "Baloo Chettan", cursive;
     text-align: center;
     background: rgba(235, 235, 235, 0.9);
 }
@@ -29,7 +29,7 @@ header {
 }
 
 header h1 {
-    font-size: 1.30em;
+    font-size: 1.44em;
     font-style: bold;
     color: rgba(50, 50, 50, 0.9);
     margin-top: 35px;
@@ -259,6 +259,9 @@ header h1 {
     .card:hover {
         background: rgba(255, 255, 255, 1);
         border: 1px solid rgba(50, 50, 50, 0.9);
+        box-shadow: -10px 14px 18px 2px rgba(0,0,0,0.71);
+	-webkit-box-shadow: -10px 14px 18px 2px rgba(0,0,0,0.71);
+-moz-box-shadow: -10px 14px 18px 2px rgba(0,0,0,0.71);
     }
 
     .card:hover .card-text {
@@ -268,5 +271,10 @@ header h1 {
     .btn:hover {
         background: rgba(255, 255, 255, 1);
         color: rgba(25, 25, 25, 1); 
+    }
+    
+    .disabled:hover {
+    	background: rgba(0,0,0,0.63);
+    	color: rgba(255,0,0,0.63);
     }
 }

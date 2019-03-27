@@ -1,9 +1,5 @@
-//global variables
-const url = 'https://randomuser.me/api/?results=12&nat=us';
-
-
-
 //FETCH FUNCTION
+const url = 'https://randomuser.me/api/?results=12&nat=us';
 fetch(url)
 	.then(res => res.json())
 	.then(data => {
@@ -121,7 +117,7 @@ function searchUsers(ref, cards, data) {
 	});
 
 	if(matches.length === 0)
-		$('#gallery').append('<h1 class="error">No Matches Found</h1>');
+		$('#gallery').append('<h1 class="error font-effect-destruction">No Matches Found</h1>');
 }
 
 
@@ -208,3 +204,8 @@ function formatBDay(data) {
 
 	return formattedDob;
 }
+
+//style changes
+const titleH1 = $('.header-text-container').children()[0];
+
+titleH1.classList.add('font-effect-fire-animation');
