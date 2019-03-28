@@ -85,7 +85,7 @@ function addSearchBar(data) {
     const searchInput = $('.search-input');
 
     searchSubmit.on('click', (e) => {
-		let results = searchUsers(searchInput.val(), cards, data);
+		searchUsers(searchInput.val(), cards, data);
 	});
 
 	searchInput.on('input', (e) => {
@@ -98,6 +98,7 @@ function addSearchBar(data) {
 	});
 }
 
+//receives a reference based on what is typed in search box and loops through data to obtain matchess, then loops through cards to hide what does not match
 function searchUsers(ref, cards, data) {
 	let matches = [];
 	let count = 0;
