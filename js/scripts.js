@@ -138,7 +138,6 @@ function displayModals(results) {
 				var next = index+1;
 
 			createModal(clicked, prev, next, results);
-			//toggleModals(clicked, prev, next, results);
 		});
 	});
 }
