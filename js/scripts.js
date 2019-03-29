@@ -36,11 +36,11 @@ function createGallery(data) {
 
 //function to dynamically create modal of user passed to function
 function createModal(clicked, prev, next, data) {
-	const HTMLBody = $('body');
+	const $HTMLBody = $('body');
 	if($('.modal-container'))
 		$('.modal-container').remove();
 
-	let modalHTML = `<div class="modal-container">
+	const modalHTML = `<div class="modal-container">
 		<div class="modal">
 			<button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button>
 			<div class="modal-info-container">
@@ -72,24 +72,24 @@ function createModal(clicked, prev, next, data) {
 
 //appends search html to search-container div and adds functionality through calling other functions
 function addSearchBar(data) {
-	const searchDiv = $('.search-container');
-	const cards = $('#gallery').children();
+	const $searchDiv = $('.search-container');
+	const $cards = $('#gallery').children();
 
-	let searchHTML = `<form action="#" method="get">
+	const searchHTML = `<form action="#" method="get">
     	<input type="search" id="search-input" class="search-input" placeholder="Search...">
 		<input type="submit" value="&#x1F50D;" id="search-submit" class="search-submit">
     </form>`
 
-    searchDiv.append(searchHTML);
-    const searchSubmit = $('#search-submit');
-    const searchInput = $('.search-input');
+    $searchDiv.append(searchHTML);
+    const $searchSubmit = $('#search-submit');
+    const $searchInput = $('.search-input');
 
-    searchSubmit.on('click', (e) => {
-		searchUsers(searchInput.val(), cards, data);
+    $searchSubmit.on('click', (e) => {
+		searchUsers($searchInput.val(), $cards, data);
 	});
 
-	searchInput.on('input', (e) => {
-		$.each(cards, (index, card) => {
+	$searchInput.on('input', (e) => {
+		$.each($cards, (index, card) => {
 			card.style.display = "flex";
 		});
 
@@ -126,17 +126,19 @@ function searchUsers(ref, cards, data) {
 
 //function to display the modal clicked by the user by adding eventListeners to each
 function displayModals(results) {
-	const cards = $('.card');
+	const $cards = $('.card');
 
-	$.each(cards, (index, currentCard) => {
+	$.each($cards, (index, currentCard) => {
 		currentCard.addEventListener('click', () => {
 			const clicked = results[index];
+			let prev;
+			let next;
 
 			if(index != 0)
-				var prev = index-1;
+				prev = index-1;
 
-			if(index < cards.length - 1)
-				var next = index+1;
+			if(index < $cards.length - 1)
+				next = index+1;
 
 			createModal(clicked, prev, next, results);
 		});
@@ -147,31 +149,31 @@ function displayModals(results) {
 function toggleModals(clicked, prevIndex, nextIndex, data) {
 	const prev = data[prevIndex];
 	const next = data[nextIndex];
-	const prevButton = $('#modal-prev');
-	const nextButton = $('#modal-next');
-	const modalContainer = $('.modal-container');
+	const $prevButton = $('#modal-prev');
+	const $nextButton = $('#modal-next');
+	const $modalContainer = $('.modal-container');
 
 	if(nextIndex === undefined || nextIndex === 12) {
 		nextIndex = 12;
-		nextButton.prop('disabled', true);
-		nextButton.addClass('disabled');
+		$nextButton.prop('disabled', true);
+		$nextButton.addClass('disabled');
 	}
 
 	if(prevIndex === undefined || prevIndex === -1) {
 		prevIndex = -1;
-		prevButton.prop('disabled', true);
-		prevButton.addClass('disabled');
+		$prevButton.prop('disabled', true);
+		$prevButton.addClass('disabled');
 	}
 
 	if(prev !== undefined){
-		prevButton.on('click', () => {
-			modalContainer.hide();
+		$prevButton.on('click', () => {
+			$modalContainer.hide();
 			createModal(prev, prevIndex-1, nextIndex-1, data);
 		});
 	}
 	if(next !== undefined){
-		nextButton.on('click', () => {
-			modalContainer.hide();
+		$nextButton.on('click', () => {
+			$modalContainer.hide();
 			createModal(next, prevIndex+1, nextIndex+1, data);
 		});
 	}
@@ -179,11 +181,11 @@ function toggleModals(clicked, prevIndex, nextIndex, data) {
 
 //gives functionality to 'X' button on modal displayed
 function closeModal() {
-	let openModal = $('.modal-container');
-	let closeButton = $('.modal-close-btn');
+	const $openModal = $('.modal-container');
+	const $closeButton = $('.modal-close-btn');
 
-	closeButton.click(e => {
-			openModal.hide();
+	$closeButton.click(e => {
+		$openModal.hide();
 	});
 }
 
@@ -205,7 +207,7 @@ function formatBDay(data) {
 	return formattedDob;
 }
 
-//style changes
+//some style changes
 const titleH1 = $('.header-text-container').children()[0];
 
 titleH1.classList.add('font-effect-fire-animation');
